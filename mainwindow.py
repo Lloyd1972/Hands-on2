@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QListWidgetItem, QWidget, QAbstractItemDelegate, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QWidget, QAbstractItemDelegate, QMessageBox
 from PySide6.QtCore import Slot, Qt
 from ui_mainwindow import Ui_MainWindow
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
@@ -56,57 +56,15 @@ class MainWindow(QMainWindow):
         denom_beta_1 = ((X - x_bar)**2).sum()
         self.beta_1 = beta_1_num / denom_beta_1
         
-        # Fórmulas simbólicas con valores originales
-        numerador_sym = [f"({xi:,} - {self._fmt(x_bar)})({yi:,} - {self._fmt(y_bar)})"
-                            for xi, yi in zip(X, Y)]
-        denominador_sym = [f"({xi:,} - {self._fmt(x_bar)})²"
-                            for xi in X]
-        
-        # Simplificadas (restas ya calculadas)
-        numerador_simp = [f"({self._fmt(xi - x_bar)})({self._fmt(yi - y_bar)})"
-                            for xi, yi in zip(X, Y)]
-        denominador_simp = [f"({self._fmt(xi - x_bar)})²"
-                                for xi in X]
-        
-        # Productos numéricos
-        numerador_val = [f"{self._fmt((xi - x_bar) * (yi - y_bar))}"
-                        for xi, yi in zip(X, Y)]
-        denominador_val = [f"{self._fmt((xi - x_bar)**2)}"
-                            for xi in X]
-        
         ## BETA 0
         self.beta_0 = y_bar - (self.beta_1 * x_bar)
         
-        steps =    [f"X̄ = ({' + '.join(f'{xi:,}' for xi in X)}) / {X.size}",
-                    f"X̄ = {x_bar}",
-                    "",
-                    f"Ȳ = ({' + '.join(f'{yi:,}' for yi in Y)}) / {Y.size}",
-                    f"Ȳ = {y_bar}",
-                    "",
-                    "β₁ = ∑(Xᵢ - X̄)(Yᵢ - Ȳ)/∑(Xᵢ - X̄)²",
-                    f"β₁ = [{' + '.join(numerador_sym)}] / [{' + '.join(denominador_sym)}]", # Valores originales
-                    f"β₁ = [{' + '.join(numerador_simp)} ] / [ {' + '.join(denominador_simp)}]", # Valores simplificados
-                    f"β₁ = ( {' + '.join(numerador_val)} ) / ( {' + '.join(denominador_val)} )", # Productos numéricos
-                    f"β₁ = {self._fmt(beta_1_num)} / {self._fmt(denom_beta_1)}", # Sumas finales
-                    f"β₁ = {self.beta_1}", # Resultado Beta 1
-                    "",
-                    "β₀ = Ȳ - β₁X̄",
-                    f"β₀ = {self._fmt(y_bar)} - ({self._fmt(self.beta_1)} * {self._fmt(x_bar)})",
-                    f"β₀ = {self._fmt(y_bar)} - {self._fmt(self.beta_1 * x_bar)}",
-                    f"β₀ = {self.beta_0}"]
-        
-        for step in steps:
-            self.ui.stepByStepList.addItem(QListWidgetItem(step))
         self.ui.resultsLabel.setText(f"β₁ = {str(self.beta_1)}, β₀ = {str(self.beta_0)}")
         
     def _fmt(self, x: float):
         return f"{x:,.4f}"
         
     def linregress(self):
-        count = self.ui.stepByStepList.count()
-        for r in range(count - 1, 16, -1):
-            self.ui.stepByStepList.takeItem(r)
-        
         xv, yv, steps = [], [], []
         subindexes = ["₁", "₂", "₃", "₄", "₅"]
         for r, sub in enumerate(subindexes):
@@ -142,9 +100,6 @@ class MainWindow(QMainWindow):
         self.ax.scatter(xv, yv, c='#00b2ee')
         self.ax.grid()
         self.canvas.draw_idle()
-        
-        for step in steps:
-            self.ui.stepByStepList.addItem(QListWidgetItem(step))
         
     @Slot()
     def openEditor(self):

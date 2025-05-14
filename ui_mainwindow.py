@@ -16,9 +16,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QGridLayout, QHeaderView,
-    QLabel, QListWidget, QListWidgetItem, QMainWindow,
-    QPushButton, QSizePolicy, QSpinBox, QStatusBar,
-    QTableWidget, QTableWidgetItem, QWidget)
+    QLabel, QMainWindow, QPushButton, QSizePolicy,
+    QSpinBox, QStatusBar, QTableWidget, QTableWidgetItem,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -47,12 +47,6 @@ class Ui_MainWindow(object):
         self.label_5.setAlignment(Qt.AlignBottom|Qt.AlignLeading|Qt.AlignLeft)
 
         self.gridLayout.addWidget(self.label_5, 0, 1, 1, 1)
-
-        self.label_4 = QLabel(self.centralwidget)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setFont(font)
-
-        self.gridLayout.addWidget(self.label_4, 2, 1, 1, 1)
 
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
@@ -241,19 +235,13 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.generateAdvertising, 4, 0, 1, 1)
 
-        self.stepByStepList = QListWidget(self.centralwidget)
-        self.stepByStepList.setObjectName(u"stepByStepList")
-        font2 = QFont()
-        font2.setFamilies([u"Cambria"])
-        font2.setPointSize(10)
-        self.stepByStepList.setFont(font2)
-        self.stepByStepList.setMidLineWidth(7)
-        self.stepByStepList.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.stepByStepList.setAlternatingRowColors(True)
-        self.stepByStepList.setSelectionMode(QAbstractItemView.NoSelection)
-        self.stepByStepList.setWordWrap(True)
+        self.label_3 = QLabel(self.centralwidget)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setTextFormat(Qt.RichText)
+        self.label_3.setOpenExternalLinks(True)
+        self.label_3.setTextInteractionFlags(Qt.TextBrowserInteraction)
 
-        self.gridLayout.addWidget(self.stepByStepList, 3, 1, 3, 1)
+        self.gridLayout.addWidget(self.label_3, 6, 0, 1, 2)
 
         self.plotHolder = QWidget(self.centralwidget)
         self.plotHolder.setObjectName(u"plotHolder")
@@ -263,24 +251,16 @@ class Ui_MainWindow(object):
         self.resultsLabel = QLabel(self.plotHolder)
         self.resultsLabel.setObjectName(u"resultsLabel")
         self.resultsLabel.setMaximumSize(QSize(16777215, 20))
-        font3 = QFont()
-        font3.setFamilies([u"Cambria"])
-        font3.setPointSize(14)
-        self.resultsLabel.setFont(font3)
+        font2 = QFont()
+        font2.setFamilies([u"Cambria"])
+        font2.setPointSize(14)
+        self.resultsLabel.setFont(font2)
         self.resultsLabel.setAlignment(Qt.AlignCenter)
 
         self.gridLayout_2.addWidget(self.resultsLabel, 0, 0, 1, 1)
 
 
-        self.gridLayout.addWidget(self.plotHolder, 1, 1, 1, 1)
-
-        self.label_3 = QLabel(self.centralwidget)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setTextFormat(Qt.RichText)
-        self.label_3.setOpenExternalLinks(True)
-        self.label_3.setTextInteractionFlags(Qt.TextBrowserInteraction)
-
-        self.gridLayout.addWidget(self.label_3, 6, 0, 1, 2)
+        self.gridLayout.addWidget(self.plotHolder, 1, 1, 5, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QStatusBar(MainWindow)
@@ -288,9 +268,6 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-
-        self.stepByStepList.setCurrentRow(-1)
-
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
@@ -300,7 +277,6 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"Data Set del Caso Benetton\n"
 "(Sales & Advertising)", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Gr\u00e1fico", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Paso a Paso", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Valores ingresados", None))
         ___qtablewidgetitem = self.ownValuesTable.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Sales\n"
@@ -365,7 +341,7 @@ class Ui_MainWindow(object):
         self.datasetTable.setSortingEnabled(__sortingEnabled1)
 
         self.generateAdvertising.setText(QCoreApplication.translate("MainWindow", u"Generar Advertising Aleatoriamente", None))
-        self.resultsLabel.setText(QCoreApplication.translate("MainWindow", u"\u03b2\u2081 = , \u03b2\u2080 = ", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Fuente: <a href=\"https://www.displayr.com/what-is-linear-regression/\">https://www.displayr.com/what-is-linear-regression/</a>", None))
+        self.resultsLabel.setText(QCoreApplication.translate("MainWindow", u"\u03b2\u2081 = , \u03b2\u2080 = ", None))
     # retranslateUi
 
