@@ -3,6 +3,7 @@ from PySide6.QtCore import Slot, Qt
 from ui_mainwindow import Ui_MainWindow
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 from matplotlib.figure import Figure
+from scipy import stats
 import numpy as np
 import random
 
@@ -48,26 +49,15 @@ class MainWindow(QMainWindow):
         self.linregress()
         
     def initialLinregress(self):
-        ## PROMEDIOS DE X y Y
-        x_bar, y_bar = np.mean(X), np.mean(Y)
-        
-        ## BETA 1
-        beta_1_num = ((X - x_bar) * (Y - x_bar)).sum()
-        denom_beta_1 = ((X - x_bar)**2).sum()
-        self.beta_1 = beta_1_num / denom_beta_1
-        
-        ## BETA 0
-        self.beta_0 = y_bar - (self.beta_1 * x_bar)
-        
+        self.beta_1, self.beta_0, _, _, _ = stats.linregress(X, Y)
         self.ui.resultsLabel.setText(f"β₁ = {str(self.beta_1)}, β₀ = {str(self.beta_0)}")
         
     def _fmt(self, x: float):
         return f"{x:,.4f}"
         
     def linregress(self):
-        xv, yv, steps = [], [], []
-        subindexes = ["₁", "₂", "₃", "₄", "₅"]
-        for r, sub in enumerate(subindexes):
+        xv, yv = [], []
+        for r in range(5):
             txt = self.ui.ownValuesTable.item(r, 1).text().replace(",", "")
             
             if not txt:
@@ -78,12 +68,6 @@ class MainWindow(QMainWindow):
             y_circumflex = self.beta_0 + self.beta_1 * xi
             
             xv.append(xi); yv.append(y_circumflex)
-            
-            steps.append("")
-            steps.append("ŷᵢ = β₀ + β₁xᵢ")
-            steps.append(f"ŷ{sub} = {self._fmt(self.beta_0)} + ({self._fmt(self.beta_1)} * {xi:,})")
-            steps.append(f"ŷ{sub} = {self._fmt(self.beta_0)} + {self._fmt(self.beta_1 * xi)}")
-            steps.append(f"ŷ{sub} = {self._fmt(y_circumflex)}")
             self.ui.ownValuesTable.setItem(r, 0, QTableWidgetItem(str(self._fmt(y_circumflex))))
         self.ui.ownValuesTable.resizeColumnsToContents()
         
